@@ -1,15 +1,10 @@
-from abc import ABC, abstractmethod
-from datetime import datetime
+from serviceable import Serviceable
 
-class Car(ABC):
-    def __init__(self, last_service_date):
-        self.last_service_date = last_service_date
 
-    @abstractmethod
-    def needs_service(self ,year):
-        service_threshold_date = self.last_service_date.replace(year)
-        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
-            return True
-        else:
-            return False
-        
+class Car(Serviceable):
+    def __init__(self, engine, battery):
+        self.engine = engine
+        self.battery = battery
+
+    def needs_service(self):
+        return self.engine.needs_service() or self.battery.needs_service()
